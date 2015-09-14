@@ -4,7 +4,6 @@ File: 	header.cfm
 Notes: 	This is a sample header file.  The header file file is generally called from 
 		head.cfm after the call to init.cfm.
 --->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +25,6 @@ Notes: 	This is a sample header file.  The header file file is generally called 
 <!--- Add style sheets as necessary. --->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <cfoutput>
-
 
 <link href="../_data/#vNodeFolder#/styles/query.smartmenus.bootstrap.css" rel="stylesheet">
 <link href="../_data/#vNodeFolder#/styles/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -57,13 +55,11 @@ Notes: 	This is a sample header file.  The header file file is generally called 
     <![endif]-->
 
 <body>
-
-
 <!-- Static navbar -->
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" id="navbar-inverse-color">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-    <a class="navbar-brand" href="#"><i class="fa fa-cubes fa-1x"></i> Company Name</a> </div>
+    <a class="navbar-brand" href="/"><i class="fa fa-cubes fa-1x"></i> Company Name</a> </div>
   <div class="navbar-collapse collapse"> 
     
     <!-- Left nav -->
@@ -110,8 +106,6 @@ Notes: 	This is a sample header file.  The header file file is generally called 
     
     <!-- Right nav -->
     <ul class="nav navbar-nav navbar-right">
-    
-  
     <cfif isDefined("client.userid") and client.userid NEQ 0>
       <li><cfoutput><a href="/index.cfm?fuseaction=home.editUserProfile">#request.editProfileTitle#</a></cfoutput>  </li>
      <li class="active"><a href="/index.cfm?fuseaction=home.Logout&nodeID=1"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> &nbsp; Logout</a> </li> 
@@ -121,10 +115,6 @@ Notes: 	This is a sample header file.  The header file file is generally called 
       <cfelse>
       <li class="active"><a href="/login"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> &nbsp; Login</a></li> 
     </cfif>
-    
-    
-    
-      
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="search">
@@ -152,10 +142,24 @@ Notes: 	This is a sample header file.  The header file file is generally called 
   
   <cfif isHomepage>
   <div class="jumbotron">
-    <h1>Lead Heading</h1>
-    <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
-    <p><a class="btn btn-lg btn-primary" href="#" role="button">Read More!</a></p>
+	<cfset leadheadingheadline = application.apiv1.sectionsapi.getContentSection("Lead Heading Headline")>
+	<cfoutput>
+		<cfif isDefined("leadheadingheadline.query.content")>#leadheadingheadline.query.content#</cfif>
+	</cfoutput>
+    <!---<h1>Lead Heading</h1>--->
+    <p class="lead">
+	<cfset leadheadingtext = application.apiv1.sectionsapi.getContentSection("Lead Heading Text")>
+	<cfoutput>
+		<cfif isDefined("leadheadingtext.query.content")>#leadheadingtext.query.content#</cfif>
+	</cfoutput>
+    <!---Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.--->
+    </p>
+    <p>
+	<cfset leadheadingbutton = application.apiv1.sectionsapi.getContentSection("Lead Heading Button")>
+	<cfoutput>
+		<cfif isDefined("leadheadingbutton.query.content")>#leadheadingbutton.query.content#</cfif>
+	</cfoutput>
+    <!---<a class="btn btn-lg btn-primary" href="#" role="button">Read More!</a>--->
+    </p>
   </div>
 </cfif>
-
-
