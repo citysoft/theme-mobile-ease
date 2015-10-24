@@ -4,6 +4,7 @@ File: 	header.cfm
 Notes: 	This is a sample header file.  The header file file is generally called from 
 		head.cfm after the call to init.cfm.
 --->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,11 +26,8 @@ Notes: 	This is a sample header file.  The header file file is generally called 
 <!--- Add style sheets as necessary. --->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <cfoutput>
-
-<link href="../_data/#vNodeFolder#/styles/query.smartmenus.bootstrap.css" rel="stylesheet">
-<link href="../_data/#vNodeFolder#/styles/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
-
-  <link rel="stylesheet" href="../_data/#vNodeFolder#/styles/flexnav.css" type="text/css" media="screen, projection" />
+  <link href="../_data/#vNodeFolder#/styles/query.smartmenus.bootstrap.css" rel="stylesheet" media="screen, projection">
+  <link href="../_data/#vNodeFolder#/styles/custom.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="../_data/#vNodeFolder#/styles/custom.css" type="text/css" media="screen, projection" />
   
   <!-- Bootstrap -->
@@ -46,6 +44,15 @@ Notes: 	This is a sample header file.  The header file file is generally called 
 .navbar-inverse .navbar-brand {
 	color: #e3ffdf;
 }
+
+
+
+@media (max-width: 767px) {
+.navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+    color: #FFFFFF;
+}
+}
+
 </style>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -55,6 +62,7 @@ Notes: 	This is a sample header file.  The header file file is generally called 
     <![endif]-->
 
 <body>
+
 <!-- Static navbar -->
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" id="navbar-inverse-color">
   <div class="navbar-header">
@@ -62,59 +70,43 @@ Notes: 	This is a sample header file.  The header file file is generally called 
     <a class="navbar-brand" href="/"><i class="fa fa-cubes fa-1x"></i> Company Name</a> </div>
   <div class="navbar-collapse collapse"> 
     
-    <!-- Left nav -->
-    <ul class="nav navbar-nav">
-      <li><a href="#">Link one</a></li>
-      <li><a href="#">Link two</a></li>
-      <li><a href="#">Link three</a></li>
-      <li><a href="#">Link four <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">sub link 1</a></li>
-          <li><a href="#">sub link 2</a></li>
-          <li><a href="#">sub link 3</a></li>
-          <li><a href="#">sub link 4</a></li>
-          <li><a href="#">sub link 5<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">sub link 1</a></li>
-              <li><a href="#">sub link 2</a></li>
-              <li><a href="#">sub link 3</a></li>
-              <li><a href="#">sub link 4</a></li>
-              <li><a href="#">sub link 5<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Menu item 1</a></li>
-                  <li><a href="#">Menu item 2</a></li>
-                  <li><a href="#">Menu item 3</a></li>
-                  <li><a href="#">Menu item 4</a></li>
-                  <li><a href="#">Menu item 5</a></li>
-                  <li><a href="#">Menu item 6</a></li>
-                  <li><a href="#">Menu item 7</a></li>
-                  <li><a href="#">Menu item 8</a></li>
-                  <li><a href="#">Menu item 9</a></li>
-                  <li><a href="#">Menu item 10</a></li>
-                  <li><a href="#">Menu item 11</a></li>
-                  <li><a href="#">Menu item 12</a></li>
-                  <li><a href="#">Menu item 13</a></li>
-                </ul>
-              </li>
-              <li><a href="#">sub link 6</a></li>
-              <li><a href="#">sub link 7</a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
+    <ul id="nav" class="nav navbar-nav">
+      <!--- The following variables is used in the navigation to manage which pages are 
+				allowed in the navigation (e.g. password protected pages would typicallly not be allowed 
+				in the navigation for a non-logged in user, unless you were trying to tease the restricted
+				content).  These variables can also be set to "private" and NULL (ie not defined at all) --->
+      <cfif not isDefined("client.userID") or client.userId lte 0>
+        <cfset topmenu_show="public">
+        <cfelse>
+        <cfset topmenu_show="roleid">
+      </cfif>
+      <!--- Include main navigation file.  This will in turn include a cached navigation
+				file that, in conjunction with the id defined above and the .css file, will define 
+				the navigation (e.g. a drop down menu structure). --->
+      <cfinclude template="../../../_includes/design/menu.cfm">
+      <!--- Optional - Add login related links to navigation. ---> 
+      <!---
+				<cfif isDefined("client.userid") and client.userid NEQ 0>
+						<li class="member" style="border-right:0px"><a href="/index.cfm?fuseaction=home.Logout&nodeID=1">Logout</a></li>
+					<cfif isDefined("client.issuperuser") and client.issuperuser EQ 1>
+						<li class="member" style="border-right:0px"><a href="/admin">Admin</a></li>
+					</cfif>
+				<cfelse>
+					<li class="member" style="border-right:0px"><a href="/index.cfm?pageId=xxx">Member Login</a></li>
+				</cfif>--->
     </ul>
     
     <!-- Right nav -->
     <ul class="nav navbar-nav navbar-right">
-    <cfif isDefined("client.userid") and client.userid NEQ 0>
-      <li><cfoutput><a href="/index.cfm?fuseaction=home.editUserProfile">#request.editProfileTitle#</a></cfoutput>  </li>
-     <li class="active"><a href="/index.cfm?fuseaction=home.Logout&nodeID=1"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> &nbsp; Logout</a> </li> 
-      <cfif isDefined("client.issuperuser") and client.issuperuser EQ 1>
-       <li><a href="/admin">Admin</a></li>
+      <cfif isDefined("client.userid") and client.userid NEQ 0>
+        <li><cfoutput><a href="/index.cfm?fuseaction=home.editUserProfile"><i class="fa fa-user"></i>&nbsp; #request.editProfileTitle#</a></cfoutput> </li>
+        <li class="active"><a href="/index.cfm?fuseaction=home.Logout&nodeID=1"><i class="fa fa-sign-out"></i> &nbsp; Logout</a> </li>
+        <cfif isDefined("client.issuperuser") and client.issuperuser EQ 1>
+          <li><a href="/admin"><i class="fa fa-cogs"></i>&nbsp; Admin</a></li>
+        </cfif>
+        <cfelse>
+        <li class="active"><a href="/login"><i class="fa fa-sign-in"></i> &nbsp; Login</a></li>
       </cfif>
-      <cfelse>
-      <li class="active"><a href="/login"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> &nbsp; Login</a></li> 
-    </cfif>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="search">
@@ -128,19 +120,21 @@ Notes: 	This is a sample header file.  The header file file is generally called 
 <br clear="all">
 <br>
 <div class="container">
-  <div class="row">
-    <div class="col-md-8"><!--<img src="images/logo.png" width="173" height="51" alt=""/><br>
+<div class="row">
+  <div class="col-md-8">
+<!--<img src="images/logo.png" width="173" height="51" alt=""/><br>
       <p>optional tagline or mission statement</p>--> 
-    </div>
-    <div class="col-md-4"> </div>
   </div>
-  <br clear="all">
-  <div class="row" >
-    <div class="col-lg-12"> </div>
-  </div>
-  <br clear="all">
-  
-  <cfif isHomepage>
+  <div class="col-md-4"> </div>
+</div>
+<br clear="all">
+<div class="row" >
+  <div class="col-lg-12"> </div>
+</div>
+
+
+<br clear="all">
+<cfif isHomepage>
   <div class="jumbotron">
 	<cfset leadheadingheadline = application.apiv1.sectionsapi.getContentSection("Lead Heading Headline")>
 	<cfoutput>
@@ -163,3 +157,4 @@ Notes: 	This is a sample header file.  The header file file is generally called 
     </p>
   </div>
 </cfif>
+

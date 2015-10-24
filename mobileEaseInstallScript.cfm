@@ -130,6 +130,7 @@ change testmode from 1 to 0 to run it. --->
           	<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. </p>
 			" ) />
 
+		<!--- Latest News Graphics --->
 		<cfset QueryAddRow( sectioninstallquery ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Latest News 1 Graphic" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
