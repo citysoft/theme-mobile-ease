@@ -7,13 +7,20 @@ http://www.domain.com/index.cfm?fuseaction=themeDeploy.themeDeploy&testmode=1&se
 
 Option #2 - If you want to run the file directly, the url might look similar to the following (but would need to be added as
 an exception in the "check request" security filter in order to run):
-http://www.domain.com/_data/n_0001/scripts/professionalInstallScript.cfm?testmode=1&sections=1&pages=1&showerrors=1 
+http://www.domain.com/_data/n_0001/scripts/mobileEaseInstallScript.cfm?testmode=1&sections=1&pages=1&showerrors=1 
 change testmode from 1 to 0 to run it. --->
 <!--- To Do: Make the node folder into a variable so it will be easier to install into a node other than node 1. --->
 <cfparam name="url.testmode" type="boolean" default="true">
 <cfparam name="url.sections" type="boolean" default="false">
 <cfparam name="url.pages" type="boolean" default="false">
-<cfparam name="url.node" type="numeric" default=1>
+<cfparam name="url.node" type="numeric" default=1><!--- If this is 0, that indicates the /global/ directory --->
+
+<cfif isDefined("url.node") AND url.node EQ 0>
+	<cfset variables.pathlocation = "global">
+<cfelseif isDefined("url.node") AND url.node GT 0>
+	<cfset variables.pathlocation = "n_000" & #url.node#>
+</cfif>
+
 
 <cfif isDefined("url.testmode") AND url.testmode EQ 1>
 	TEST MODE ONLY - NO INSERTS INTO CE DB<br>
@@ -52,22 +59,22 @@ change testmode from 1 to 0 to run it. --->
 		<cfset QueryAddRow( sectioninstallquery ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Slide 1" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
-		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "<img src='../_data/n_000#url.node#/images/main_img1.jpg' alt=''>" ) />
+		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "<img src='../_data/#variables.pathlocation#/images/main_img1.jpg' alt=''>" ) />
 
 		<cfset QueryAddRow( sectioninstallquery ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Slide 2" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
-		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "<img src='../_data/n_000#url.node#/images/hm_slide_temp2.jpg' alt=''>" ) />
+		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "<img src='../_data/#variables.pathlocation#/images/hm_slide_temp2.jpg' alt=''>" ) />
 
 		<cfset QueryAddRow( sectioninstallquery ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Slide 3" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
-		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "<img src='../_data/n_000#url.node#/images/hm_slide_temp3.jpg' alt=''>" ) />
+		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "<img src='../_data/#variables.pathlocation#/images/hm_slide_temp3.jpg' alt=''>" ) />
 
 		<cfset QueryAddRow( sectioninstallquery ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Slide 4" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
-		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "<img src='../_data/n_000#url.node#/images/hm_slide_temp4.jpg' alt=''>" ) />
+		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "<img src='../_data/#variables.pathlocation#/images/hm_slide_temp4.jpg' alt=''>" ) />
 
 		<cfset QueryAddRow( sectioninstallquery ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Slide 1 Text" ) />
@@ -135,21 +142,21 @@ change testmode from 1 to 0 to run it. --->
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Latest News 1 Graphic" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "
-		<a href='##'><img class='media-object' data-src='holder.js/64x64' alt='64x64' src='../_data/n_000#url.node#/images/highlightbox_pic1.jpg' data-holder-rendered='true' style='width: 64px; height: 64px;'></a>
+		<a href='##'><img class='media-object' data-src='holder.js/64x64' alt='64x64' src='../_data/#variables.pathlocation#/images/highlightbox_pic1.jpg' data-holder-rendered='true' style='width: 64px; height: 64px;'></a>
 			" ) />
 
 		<cfset QueryAddRow( sectioninstallquery ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Latest News 2 Graphic" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "
-		<a href='##'><img class='media-object' data-src='holder.js/64x64' alt='64x64' src='../_data/n_000#url.node#/images/highlightbox_pic4.jpg' data-holder-rendered='true' style='width: 64px; height: 64px;'></a>
+		<a href='##'><img class='media-object' data-src='holder.js/64x64' alt='64x64' src='../_data/#variables.pathlocation#/images/highlightbox_pic4.jpg' data-holder-rendered='true' style='width: 64px; height: 64px;'></a>
 			" ) />
 
 		<cfset QueryAddRow( sectioninstallquery ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Latest News 3 Graphic" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "
-		<a href='##'><img class='media-object' data-src='holder.js/64x64' alt='64x64' src='../_data/n_000#url.node#/images/highlightbox_pic3.jpg' data-holder-rendered='true' style='width: 64px; height: 64px;'></a>
+		<a href='##'><img class='media-object' data-src='holder.js/64x64' alt='64x64' src='../_data/#variables.pathlocation#/images/highlightbox_pic3.jpg' data-holder-rendered='true' style='width: 64px; height: 64px;'></a>
 			" ) />
 
 		<!--- Footer Sections --->
@@ -321,7 +328,7 @@ change testmode from 1 to 0 to run it. --->
 					Values(
 						4
 						,<cfqueryparam value="#getpagetemplateid.pagetemplateid#" cfsqltype="CF_SQL_VARCHAR">
-						,1
+						,<cfqueryparam value="#url.node#" cfsqltype="cf_sql_integer">
 						,<cfqueryparam value="#trim(pageinstallquery.pagetitle)#" cfsqltype="CF_SQL_VARCHAR">
 						,<cfqueryparam value="#trim(pageinstallquery.pagenavtitle)#" cfsqltype="CF_SQL_VARCHAR">
 						,4
