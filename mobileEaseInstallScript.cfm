@@ -3,7 +3,7 @@
 <!--- URL to run script:
 Option #1 - If you are using an extension folder to run the deployment script (which allows you to bypass the "check request" 
 security filter), then your deployment url might look like the following:
-http://www.domain.com/index.cfm?fuseaction=themeDeploy.themeDeploy&testmode=1&sections=1&pages=0&node=1&showerrors=1
+http://www.domain.com/index.cfm?fuseaction=themeDeploy.mobileEase&testmode=1&sections=1&pages=0&node=1&showerrors=1
 
 Option #2 - If you want to run the file directly, the url might look similar to the following (but would need to be added as
 an exception in the "check request" security filter in order to run):
@@ -18,9 +18,8 @@ change testmode from 1 to 0 to run it. --->
 <cfif isDefined("url.node") AND url.node EQ 0>
 	<cfset variables.pathlocation = "global">
 <cfelseif isDefined("url.node") AND url.node GT 0>
-	<cfset variables.pathlocation = "n_000" & #url.node#>
+	<cfset variables.pathlocation = "n_" & NumberFormat(url.node, "0009")>
 </cfif>
-
 
 <cfif isDefined("url.testmode") AND url.testmode EQ 1>
 	TEST MODE ONLY - NO INSERTS INTO CE DB<br>
@@ -310,6 +309,14 @@ change testmode from 1 to 0 to run it. --->
 			FROM page
 			WHERE pagetitle = <cfqueryparam value="#pageinstallquery.pagetitle#" cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
+
+		<!--- Get ParentPageID for insert below into Page table. --->
+		<cfquery name="getHomePageID" datasource="#request.dsn#">
+			SELECT pageid
+			FROM page
+			WHERE parentpageid = 0
+				NodeID = <cfqueryparam value="#url.node#" cfsqltype="cf_sql_integer">
+		</cfquery>
 	
 		<cfif NOT dupecheck.recordcount>
 		<!--- Insert page info --->
@@ -326,7 +333,7 @@ change testmode from 1 to 0 to run it. --->
 						CreateDate
 						)
 					Values(
-						4
+						<cfqueryparam value="#getHomePageID.PageID#" cfsqltype="cf_sql_integer">
 						,<cfqueryparam value="#getpagetemplateid.pagetemplateid#" cfsqltype="CF_SQL_VARCHAR">
 						,<cfqueryparam value="#url.node#" cfsqltype="cf_sql_integer">
 						,<cfqueryparam value="#trim(pageinstallquery.pagetitle)#" cfsqltype="CF_SQL_VARCHAR">
