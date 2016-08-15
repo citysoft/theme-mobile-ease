@@ -225,7 +225,14 @@
 </footer>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!--- The conditional below assumes that CE is in use and will prevent a jquery collision between the script call below
+	  and a similar one that happens in the "Manage Your Profile" feature. --->
+<!--- Script call below assumes jquery is being loaded from within our core code, but could point to a 3rd party CDN as well. --->
+<cfif isDefined("fuseaction") and fuseaction EQ "home.editUserProfile">
+	<!--- do nothing --->
+<cfelse>
+	<script src="/_includes/jquery/1.11.3/jquery.min.js"></script>
+</cfif>
 <cfoutput>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../_data/#vNodeFolder#/scripts/bootstrap.min.js"></script>
