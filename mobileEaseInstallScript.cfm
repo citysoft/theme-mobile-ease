@@ -204,7 +204,6 @@ change testmode from 1 to 0 to run it. --->
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Footer Bottom Links" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "
-			<p>&copy; 2015 Your Company, Inc. | <a href='##'>Privacy</a> | <a href='##'>Terms</a></p>
 			" ) />
 
 <cfdump var="#sectioninstallquery#" label=""/>
@@ -315,7 +314,7 @@ change testmode from 1 to 0 to run it. --->
 			SELECT pageid
 			FROM page
 			WHERE parentpageid = 0
-				NodeID = <cfqueryparam value="#url.node#" cfsqltype="cf_sql_integer">
+				AND NodeID = <cfqueryparam value="#url.node#" cfsqltype="cf_sql_integer">
 		</cfquery>
 	
 		<cfif NOT dupecheck.recordcount>
