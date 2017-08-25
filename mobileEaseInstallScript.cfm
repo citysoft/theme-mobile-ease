@@ -26,7 +26,6 @@ change testmode from 1 to 0 to run it. --->
 </cfif>
 
 <cfset variables.sectiondescription = "Please Note - This section displays content on the home page.<br>  
-			The home page template uses the title of this section to find and display the section content on the home page.<br>  
 			Changes to the section title may cause the section content to disappear from the home page.">
 
 <!--- Install Slide Content Channels --->
@@ -218,6 +217,7 @@ change testmode from 1 to 0 to run it. --->
 			SELECT title
 			FROM contentT
 			WHERE title = <cfqueryparam value="#sectioninstallquery.sectiontitle#" cfsqltype="CF_SQL_VARCHAR">
+			AND NodeID = <cfqueryparam value="#url.node#" cfsqltype="cf_sql_integer">
 		</cfquery>
 	
 		<cfif NOT dupecheck.recordcount>
@@ -229,12 +229,18 @@ change testmode from 1 to 0 to run it. --->
 						,Content
 						,Description
 						,CreateDate
+						<cfif isDefined("url.Node") AND isValid("integer",trim(url.node))>
+						,NodeID
+						</cfif>
 						)
 					VALUES (
 						<cfqueryparam value="#trim(sectioninstallquery.sectiontitle)#" cfsqltype="CF_SQL_VARCHAR">
 						,<cfqueryparam value="#trim(sectioninstallquery.sectioncontent)#" cfsqltype="CF_SQL_VARCHAR">
 						,<cfqueryparam value="#trim(sectioninstallquery.sectiondescription)#" cfsqltype="CF_SQL_VARCHAR">
 						,#CreateODBCDateTime(now())#
+						<cfif isDefined("url.Node") AND isValid("integer",trim(url.node))>
+						,<cfqueryparam value="#url.node#" cfsqltype="cf_sql_integer">
+						</cfif>
 						)
 				</cfquery>
 			</cfif>
@@ -308,6 +314,7 @@ change testmode from 1 to 0 to run it. --->
 			SELECT pagetitle
 			FROM page
 			WHERE pagetitle = <cfqueryparam value="#pageinstallquery.pagetitle#" cfsqltype="CF_SQL_VARCHAR">
+			AND NodeID = <cfqueryparam value="#url.node#" cfsqltype="cf_sql_integer">
 		</cfquery>
 
 		<!--- Get ParentPageID for insert below into Page table. --->
