@@ -204,6 +204,7 @@ change testmode from 1 to 0 to run it. --->
 		<cfset QuerySetCell( sectioninstallquery, "sectiontitle", "Footer Bottom Links" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectiondescription", "#variables.sectiondescription#" ) />
 		<cfset QuerySetCell( sectioninstallquery, "sectioncontent", "
+			<p>&copy; 2017 Your Company, Inc. | <a href='##'>Privacy</a> | <a href='##'>Terms</a></p>
 			" ) />
 
 <cfdump var="#sectioninstallquery#" label=""/>
