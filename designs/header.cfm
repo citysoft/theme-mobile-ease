@@ -136,20 +136,20 @@ Notes: 	This is a sample header file.  The header file file is generally called 
 <br clear="all">
 <cfif isHomepage>
   <div class="jumbotron">
-	<cfset leadheadingheadline = application.apiv1.sectionsapi.getContentSection("Lead Heading Headline")>
+	<cfset leadheadingheadline = application.apiv1.sectionsapi.getContentSection(sectionTitle="Lead Heading Headline", NodeID=#attributes.NodeID#)>
 	<cfoutput>
 		<cfif isDefined("leadheadingheadline.query.content")>#leadheadingheadline.query.content#</cfif>
 	</cfoutput>
     <!---<h1>Lead Heading</h1>--->
     <p class="lead">
-	<cfset leadheadingtext = application.apiv1.sectionsapi.getContentSection("Lead Heading Text")>
+	<cfset leadheadingtext = application.apiv1.sectionsapi.getContentSection(sectionTitle="Lead Heading Text", NodeID=#attributes.NodeID#)>
 	<cfoutput>
 		<cfif isDefined("leadheadingtext.query.content")>#leadheadingtext.query.content#</cfif>
 	</cfoutput>
     <!---Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.--->
     </p>
     <p>
-	<cfset leadheadingbutton = application.apiv1.sectionsapi.getContentSection("Lead Heading Button")>
+	<cfset leadheadingbutton = application.apiv1.sectionsapi.getContentSection(sectionTitle="Lead Heading Button", NodeID=#attributes.NodeID#)>
 	<cfoutput>
 		<cfif isDefined("leadheadingbutton.query.content")>#leadheadingbutton.query.content#</cfif>
 	</cfoutput>
